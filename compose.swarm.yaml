@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: localhost:5001/digital-subscriptions-frontend:1.0
+    image: itsmekkami/digital-subscriptions-frontend:latest
     ports:
       - "8081:80"
     depends_on:
@@ -13,7 +13,7 @@ services:
         condition: on-failure
 
   backend:
-    image: localhost:5001/digital-subscriptions-backend:1.0
+    image: itsmekkami/digital-subscriptions-backend:latest
     ports:
       - "8003:8000"
     environment:
@@ -33,7 +33,7 @@ services:
         condition: on-failure
 
   payment-service:
-    image: localhost:5001/digital-subscriptions-payment:1.0
+    image: itsmekkami/digital-subscriptions-payment:latest
     expose:
       - "8001"
     networks:
@@ -44,7 +44,7 @@ services:
         condition: on-failure
 
   subscription-service:
-    image: localhost:5001/digital-subscriptions-subscription:1.0
+    image: itsmekkami/digital-subscriptions-subscription:latest
     expose:
       - "8002"
     environment:
@@ -59,7 +59,7 @@ services:
         condition: on-failure
 
   db:
-    image: localhost:5001/digital-subscriptions-db:16-alpine
+    image: postgres:16-alpine
     environment:
       POSTGRES_DB: subscriptions
       POSTGRES_USER: app_user
