@@ -1,0 +1,482 @@
+:root {
+    --bg: #f2f2ff;
+    --surface: #fff;
+    --text: #222239;
+    --muted: #77778f;
+    --primary: #6b57dd;
+    --primary-hover: #4d37c7;
+    --border: #e9e8f3;
+    --shadow: 0 8px 28px rgb(39 32 91 / 0.06);
+    --radius: 18px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    color: var(--text);
+    font-family: Inter, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    background: var(--bg);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    transition: all 0.5s ease;
+}
+
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* шапка */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: 1px solid var(--border);
+    background: rgb(255 255 255 / 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    min-height: 76px;
+}
+
+.logo {
+    color: var(--text);
+    font-weight: 800;
+    font-size: 21px;
+    text-decoration: none;
+}
+
+.logo::before {
+    content: "✦";
+    display: inline-grid;
+    justify-items: center;
+    align-items: center;
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+    border-radius: 11px;
+    color: white;
+    background: var(--primary);
+}
+
+.account-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-info {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* баннер */
+
+.hero {
+    position: relative;
+    margin: 32px 0;
+    border-radius: 28px;
+    padding: 66px 42px 58px;
+    box-shadow: 0 18px 45px rgb(77 58 164 / 0.2);
+    color: #fff;
+    background: linear-gradient(120deg, #29204f, #5540a9 65%, #7865e9);
+}
+
+.hero::after {
+    content: "✦";
+    position: absolute;
+    top: 4px;
+    right: 40px;
+    color: rgb(255 255 255 / 0.15);
+    font-size: 190px;
+    line-height: 1;
+}
+
+.hero-prescription {
+    display: inline-block;
+    margin: 0 0 12px;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: 100px;
+    padding: 4px 12px;
+    color: #eae6fb;
+    font-weight: 700;
+    font-size: 16px;
+    background: rgb(255 255 255 / 0.1);
+}
+
+.hero-heading {
+    max-width: 650px;
+    margin: 0 0 14px;
+    font-size: 48px;
+    line-height: 1.2;
+}
+
+.hero-description {
+    max-width: 540px;
+    margin: 0;
+    color: #e2ddf8;
+    font-size: 16px;
+}
+
+/* заголовки и секции */
+
+h2 {
+    margin: 0 0 18px;
+    color: var(--text);
+    font-size: 27px;
+    line-height: 1.3;
+}
+
+h3 {
+    color: var(--text);
+    font-size: 19px;
+    line-height: 1.4;
+}
+
+.catalog-section {
+    padding: 24px 0 48px;
+}
+
+.catalog-section-heading {
+    margin-bottom: 8px;
+}
+
+.catalog-section-status {
+    margin: 0 0 24px;
+}
+
+/* карточки */
+
+.card {
+    margin-bottom: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    background: var(--surface);
+}
+
+.card > p {
+    color: var(--muted);
+}
+
+/* Вход и регистрация */
+
+.auth-tabs {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 24px;
+}
+
+.auth-tabs .button {
+    flex: 1;
+}
+
+#login-form,
+#register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 460px;
+}
+
+label {
+    color: #484760;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+input {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid #deddea;
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--text);
+    background: #fcfcff;
+}
+
+input::placeholder {
+    color: #aaa8bb;
+}
+
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgb(108 85 232 / 0.1);
+    outline: none;
+    background: white;
+}
+
+/* Кнопки */
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 44px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 11px 18px;
+    color: #fff;
+    font-weight: 700;
+    background: var(--primary);
+}
+
+.button:hover {
+    box-shadow: 0 5px 14px rgb(108 85 232 / 0.2);
+    background: var(--primary-hover);
+}
+
+.button-secondary {
+    border-color: var(--border);
+    color: #55516d;
+    background: #f6f5fb;
+}
+
+.button-secondary:hover {
+    border-color: #d8d0ff;
+    box-shadow: none;
+    color: var(--primary-hover);
+    background: #eeebff;
+}
+
+.button-cancel {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    border: 1px solid #f4d4db;
+    border-radius: 12px;
+    padding: 10px 16px;
+    color: #b94b65;
+    font: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    background: #fff1f3;
+    transition: all 0.2s ease;
+}
+
+.button-cancel:hover {
+    border-color: #eab7c3;
+    background: #ffe4e9;
+}
+
+/* каталог тарифов */
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.plan-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    background: var(--surface);
+    transition: all 0.2s ease;
+}
+
+.plan-card:hover {
+    border-color: #d5ceff;
+    box-shadow: 0 16px 34px rgb(58 44 125 /0.1);
+    transform: translateY(-5px);
+}
+
+.plan-card h3 {
+    margin: 0 0 10px;
+}
+
+.plan-card p {
+    flex-grow: 1;
+    overflow-wrap: anywhere;
+    color: var(--muted);
+}
+
+.price {
+    margin: 12px 0 22px;
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 29px;
+}
+
+.plan-card .button {
+    width: 100%;
+    margin-top: auto;
+}
+
+/* личный кабинет */
+
+#my-subscriptions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+#my-subscriptions .plan-card {
+    box-shadow: none;
+    background: #fdfdff;
+}
+
+#my-subscriptions .plan-card .button {
+    margin-top: 12px;
+}
+
+#my-subscriptions .plan-card .button:not(.button-secondary) {
+    border-color: #f5d4d8;
+    color: #b42335;
+    background: #fff0f0;
+}
+
+#my-subscriptions .plan-card .button:not(.button-secondary):hover {
+    box-shadow: none;
+    background: #ffe0e4;
+}
+
+/* статусы */
+
+.subscription-status {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 100px;
+    padding: 5px 11px;
+    font-weight: 750;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.status-active {
+    color: #16794a;
+    background: #e5f7ed;
+}
+
+.status-expired {
+    color: #986000;
+    background: #fff2d6;
+}
+
+.status-cancelled {
+    color: #b42335;
+    background: #ffeaed;
+}
+
+/* панель админа */
+
+.table-wrapper {
+    width: 100%;
+    margin: 20px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    font-size: 13px;
+    text-align: left;
+    background: white;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    padding: 14px 16px;
+    color: #5f5a78;
+    font-weight: 700;
+    font-size: 12px;
+    background: #f6f5fb;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    border-top: 1px solid #efedf6;
+    padding: 14px 16px;
+    color: #49475f;
+    white-space: nowrap;
+}
+
+.admin-table tbody tr:hover {
+    background: #faf9ff;
+}
+
+/* сообщения */
+
+.status {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+#auth-status:not(:empty),
+#subscriptions-status:not(:empty),
+#admin-status:not(:empty) {
+    margin-top: 16px;
+}
+
+.notice {
+    margin-bottom: 28px;
+    border: 1px solid #cdeed9;
+    border-radius: 12px;
+    padding: 16px 18px;
+    overflow-wrap: anywhere;
+    color: #176b45;
+    font-weight: 600;
+    font-size: 14px;
+    background: #eaf9f0;
+}
+
+.notice.error,
+.status.error {
+    border-color: #f5d1d6;
+    color: #a42635;
+    background: #fff0f2;
+}
+
+.status.error {
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* подвал */
+
+footer {
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    background: rgb(255 255 255 / 0.6);
+}

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Цифровой контент - подписки</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="container header-content">
+        <a href="/" class="logo">Digital Content</a>
+        <div id="account-info" class="account-info">
+          <span id="user-info" class="user-info">Вы не вошли в аккаунт</span>
+          <button
+            id="logout-button"
+            class="button button-secondary hidden"
+            type="button"
+          >
+            Выйти
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <p class="hero-prescription">Цифровой контент для вас</p>
+        <h1 class="hero-heading">Выбирайте свою подписку</h1>
+        <p class="hero-description">
+          Получайте доступ к цифровому контенту на удобных условиях
+        </p>
+      </section>
+
+      <section class="card" id="auth-section">
+        <h2>Ваш аккаунт</h2>
+
+        <div class="auth-tabs">
+          <button id="show-login" class="button button-secondary" type="button">
+            Вход
+          </button>
+          <button
+            id="show-register"
+            class="button button-secondary"
+            type="button"
+          >
+            Регистрация
+          </button>
+        </div>
+
+        <form id="login-form">
+          <label for="login-email">Электронная почта</label>
+          <input id="login-email" type="email" required autocomplete="email" />
+
+          <label for="login-password">Пароль</label>
+          <input
+            id="login-password"
+            type="password"
+            required
+            autocomplete="current-password"
+          />
+
+          <button class="button" type="submit">Войти</button>
+        </form>
+
+        <form id="register-form" class="hidden">
+          <label for="register-name">Имя</label>
+          <input
+            id="register-name"
+            type="text"
+            required
+            maxlength="100"
+            autocomplete="name"
+          />
+
+          <label for="register-email">Электронная почта</label>
+          <input
+            id="register-email"
+            type="email"
+            required
+            autocomplete="email"
+          />
+
+          <label for="register-password">Пароль (не менее 8 символов)</label>
+          <input
+            id="register-password"
+            type="password"
+            required
+            minlength="8"
+            maxlength="128"
+            autocomplete="new-password"
+          />
+
+          <button class="button" type="submit">Создать аккаунт</button>
+        </form>
+
+        <p id="auth-status" class="status" aria-live="polite"></p>
+      </section>
+
+      <section class="catalog-section">
+        <h2 class="catalog-section-heading">Каталог подписок</h2>
+        <p id="catalog-status" class="catalog-section-status">
+          Загрузка каталога...
+        </p>
+        <div id="catalog" class="catalog-grid"></div>
+      </section>
+
+      <div
+        id="purchase-status"
+        class="notice hidden"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+      <section id="subscriptions-section" class="card hidden">
+        <h2>Мои подписки</h2>
+        <p id="subscriptions-status" class="status"></p>
+        <div id="my-subscriptions"></div>
+      </section>
+
+      <section id="admin-section" class="card hidden">
+        <h2>Панель администратора</h2>
+        <p>Все подписки пользователей системы</p>
+
+        <p id="admin-status" class="status" aria-live="polite"></p>
+
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID подписки</th>
+                <th>Пользователь</th>
+                <th>Email</th>
+                <th>Тариф</th>
+                <th>Дата начала</th>
+                <th>Дата окончания</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody id="admin-subscriptions"></tbody>
+          </table>
+        </div>
+
+        <button
+          id="refresh-admin-button"
+          class="button button-secondary"
+          type="button"
+        >
+          Обновить список
+        </button>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        Система управления оплатой и подписками в сфере цифрового контента
+      </div>
+    </footer>
+  </body>
+</html>

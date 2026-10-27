@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+psycopg[binary]
+requests
+pwdlib[argon2]
+PyJWT
+email-validator
+python-multipart
