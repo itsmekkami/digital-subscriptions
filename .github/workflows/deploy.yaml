@@ -1,0 +1,121 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and push Docker images
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/digital-subscriptions-frontend:latest
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/digital-subscriptions-backend:latest
+
+      - name: Build and push payment service
+        uses: docker/build-push-action@v6
+        with:
+          context: ./payment-service
+          file: ./payment-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/digital-subscriptions-payment:latest
+
+      - name: Build and push subscription service
+        uses: docker/build-push-action@v6
+        with:
+          context: ./subscription-service
+          file: ./subscription-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/digital-subscriptions-subscription:latest
+
+  deploy:
+    name: Run deployment tests
+    runs-on: ubuntu-latest
+    needs: build
+
+    env:
+      POSTGRES_PASSWORD: ci-test-password-only
+      JWT_SECRET: ci-test-jwt-secret-not-for-production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate Compose configuration
+        run: docker compose config -q
+
+      - name: Start test environment
+        run: docker compose up -d --build
+
+      - name: Check frontend and backend
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://localhost:8081/health; then
+              echo "Backend health check passed."
+              break
+            fi
+            sleep 2
+          done
+
+          curl --fail http://localhost:8081/health
+          curl --fail --silent http://localhost:8081/ > /dev/null
+          echo "Frontend responds successfully."
+
+      - name: Check internal services
+        run: |
+          for service_url in \
+            http://payment-service:8001/health \
+            http://subscription-service:8002/health; do
+
+            for attempt in $(seq 1 30); do
+              if docker compose exec -T backend python -c \
+                "import urllib.request; urllib.request.urlopen('$service_url', timeout=3).read()" \
+                2>/dev/null; then
+                echo "$service_url responds successfully."
+                break
+              fi
+              sleep 2
+            done
+
+            docker compose exec -T backend python -c \
+              "import urllib.request; urllib.request.urlopen('$service_url', timeout=3).read()"
+          done
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: Stop test environment
+        if: always()
+        run: docker compose down --volumes --remove-orphans
