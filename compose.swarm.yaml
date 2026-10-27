@@ -1,0 +1,88 @@
+services:
+  frontend:
+    image: localhost:5001/digital-subscriptions-frontend:1.0
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  backend:
+    image: localhost:5001/digital-subscriptions-backend:1.0
+    ports:
+      - "8003:8000"
+    environment:
+      DATABASE_URL: postgresql://app_user:${POSTGRES_PASSWORD}@db:5432/subscriptions
+      PAYMENT_SERVICE_URL: http://payment-service:8001
+      SUBSCRIPTION_SERVICE_URL: http://subscription-service:8002
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - db
+      - payment-service
+      - subscription-service
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  payment-service:
+    image: localhost:5001/digital-subscriptions-payment:1.0
+    expose:
+      - "8001"
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  subscription-service:
+    image: localhost:5001/digital-subscriptions-subscription:1.0
+    expose:
+      - "8002"
+    environment:
+      DATABASE_URL: postgresql://app_user:${POSTGRES_PASSWORD}@db:5432/subscriptions
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  db:
+    image: localhost:5001/digital-subscriptions-db:16-alpine
+    environment:
+      POSTGRES_DB: subscriptions
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_user -d subscriptions"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+networks:
+  mynetwork:
+    driver: overlay
+
+volumes:
+  postgres_data:
+    external: true
+    name: digital-subscriptions_postgres_data
